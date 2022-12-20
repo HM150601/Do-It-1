@@ -1,4 +1,4 @@
-package net.penguincoders.doit;
+package net.example.doit;
 
 import android.content.DialogInterface;
 

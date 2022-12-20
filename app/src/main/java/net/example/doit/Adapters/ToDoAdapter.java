@@ -1,4 +1,4 @@
-package net.penguincoders.doit.Adapters;
+package net.example.doit.Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,11 +11,12 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.penguincoders.doit.AddNewTask;
-import net.penguincoders.doit.MainActivity;
-import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.R;
-import net.penguincoders.doit.Utils.DatabaseHandler;
+import net.example.doit.AddNewTask;
+import net.example.doit.MainActivity;
+import net.example.doit.Model.ToDoModel;
+import net.example.doit.R;
+import net.example.doit.Utils.DatabaseHandler;
+
 
 import java.util.List;
 

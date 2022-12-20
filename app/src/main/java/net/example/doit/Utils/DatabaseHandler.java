@@ -1,4 +1,4 @@
-package net.penguincoders.doit.Utils;
+package net.example.doit.Utils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import net.penguincoders.doit.Model.ToDoModel;
+import net.example.doit.Model.ToDoModel;
 
 import java.util.ArrayList;
 import java.util.List;

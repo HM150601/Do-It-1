@@ -1,4 +1,4 @@
-package net.penguincoders.doit;
+package net.example.doit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,9 +15,9 @@ import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import net.penguincoders.doit.Adapters.ToDoAdapter;
-import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.Utils.DatabaseHandler;
+import net.example.doit.Adapters.ToDoAdapter;
+import net.example.doit.Model.ToDoModel;
+import net.example.doit.Utils.DatabaseHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements DialogCloseListener{
+public class MainActivity extends AppCompatActivity implements DialogCloseListener {
 
     private DatabaseHandler db;
 
