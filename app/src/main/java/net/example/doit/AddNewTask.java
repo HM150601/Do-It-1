@@ -1,7 +1,10 @@
 package net.example.doit;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 
 import net.example.doit.Model.ToDoModel;
+import net.example.doit.Receiver.ReminderBroadcast;
 import net.example.doit.Utils.DatabaseHandler;
 
 
@@ -31,7 +37,9 @@ public class AddNewTask extends BottomSheetDialogFragment {
     public static final String TAG = "ActionBottomDialog";
     private EditText newTaskText;
     private Button newTaskSaveButton;
-
+    Spinner Hourspin;
+    Spinner Minutespin;
+    Spinner Secondspin;
     private DatabaseHandler db;
 
     public static AddNewTask newInstance(){
@@ -59,6 +67,9 @@ public class AddNewTask extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         newTaskText = Objects.requireNonNull(getView()).findViewById(R.id.newTaskText);
+        Hourspin = (Spinner) getView().findViewById(R.id.Hourspin);
+        Minutespin = (Spinner) getView().findViewById(R.id.Minutespin);
+        Secondspin = (Spinner) getView().findViewById(R.id.Secondspin);
         newTaskSaveButton = getView().findViewById(R.id.newTaskButton);
 
         boolean isUpdate = false;
@@ -103,14 +114,39 @@ public class AddNewTask extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 String text = newTaskText.getText().toString();
+                long milliHour = Long.parseLong(Hourspin.getSelectedItem().toString()) * 1000 * 3600;
+                long milliMin = Long.parseLong(Minutespin.getSelectedItem().toString()) * 1000 * 60;
+                long milliSec = Long.parseLong(Secondspin.getSelectedItem().toString()) * 1000;
                 if(finalIsUpdate){
                     db.updateTask(bundle.getInt("id"), text);
+
+                    Intent intent = new Intent(AddNewTask.this.getActivity(), ReminderBroadcast.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
+
+                    AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(getContext().ALARM_SERVICE);
+
+                    long timeAtButtonClick = System.currentTimeMillis();
+
+                    long tenSecondsInMillis = milliHour + milliMin + milliSec;
+
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + tenSecondsInMillis,pendingIntent);
                 }
                 else {
                     ToDoModel task = new ToDoModel();
                     task.setTask(text);
                     task.setStatus(0);
                     db.insertTask(task);
+
+                    Intent intent = new Intent(AddNewTask.this.getActivity(),ReminderBroadcast.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
+
+                    AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(getContext().ALARM_SERVICE);
+
+                    long timeAtButtonClick = System.currentTimeMillis();
+
+                    long tenSecondsInMillis = milliHour + milliMin + milliSec;
+
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtButtonClick + tenSecondsInMillis,pendingIntent);
                 }
                 dismiss();
             }

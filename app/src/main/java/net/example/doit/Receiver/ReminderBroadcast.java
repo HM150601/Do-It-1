@@ -9,6 +9,8 @@ import androidx.core.app.NotificationManagerCompat;
 
 import net.example.doit.R;
 
+import java.util.Date;
+
 public class ReminderBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -19,6 +21,10 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(200, builder.build());
+        notificationManager.notify(getNotificationID(), builder.build());
+    }
+
+    private int getNotificationID(){
+        return (int) new Date().getTime();
     }
 }

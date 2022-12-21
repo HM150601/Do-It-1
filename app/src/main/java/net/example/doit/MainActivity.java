@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
     private RecyclerView tasksRecyclerView;
     private ToDoAdapter tasksAdapter;
-    private FloatingActionButton fab;
-    private Button notifyButton;
+    private FloatingActionButton fab, notifyButton;
 
     private List<ToDoModel> taskList;
 
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toast.makeText(MainActivity.this, "onCreate Called", Toast.LENGTH_LONG).show();
         Objects.requireNonNull(getSupportActionBar()).hide();
         createNotificationChannel();
         db = new DatabaseHandler(this);
@@ -99,6 +99,32 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         });
 
     }
+
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(getApplicationContext(), "onStart Called", Toast.LENGTH_LONG).show();
+    }
+
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(getApplicationContext(), "onRestart Called", Toast.LENGTH_LONG).show();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(getApplicationContext(), "onResume Called", Toast.LENGTH_LONG).show();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(getApplicationContext(), "onPause Called", Toast.LENGTH_LONG).show();
+    }
+
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(getApplicationContext(), "onStop Called", Toast.LENGTH_LONG).show();
+    }
+
 
     @Override
     public void handleDialogClose(DialogInterface dialog){

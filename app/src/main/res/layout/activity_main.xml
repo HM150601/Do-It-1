@@ -35,15 +35,16 @@
         android:backgroundTint="@android:color/holo_green_dark"
         android:src="@drawable/ic_baseline_add_24" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/remindMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remind me in 10 seconds"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="14dp"
-        android:background="#FDF4A7"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="30dp"
+        android:clickable="true"
+        android:backgroundTint="#FDF4A7"
+        app:srcCompat="@drawable/ic_round_notifications_active_24" />
 
 </RelativeLayout>
