@@ -7,16 +7,24 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.example.doit.Adapters.ToDoAdapter;
 import net.example.doit.Model.ToDoModel;
+import net.example.doit.Receiver.ReminderBroadcast;
 import net.example.doit.Utils.DatabaseHandler;
 
 import java.util.ArrayList;
@@ -34,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private RecyclerView tasksRecyclerView;
     private ToDoAdapter tasksAdapter;
     private FloatingActionButton fab;
+    private Button notifyButton;
 
     private List<ToDoModel> taskList;
 
@@ -42,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
-
+        createNotificationChannel();
         db = new DatabaseHandler(this);
         db.openDatabase();
 
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         itemTouchHelper.attachToRecyclerView(tasksRecyclerView);
 
         fab = findViewById(R.id.fab);
+        notifyButton = findViewById(R.id.remindMe);
 
         taskList = db.getAllTasks();
         Collections.reverse(taskList);
@@ -68,6 +78,26 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
                 AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
             }
         });
+
+        notifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Reminder Set !!!",Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,0,intent,0);
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                long timeButtonClick = System.currentTimeMillis();
+                long tenSecondsMillis = 1000 * 10;
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP,
+                                timeButtonClick + tenSecondsMillis,
+                                pendingIntent);
+            }
+        });
+
     }
 
     @Override
@@ -76,5 +106,18 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         Collections.reverse(taskList);
         tasksAdapter.setTasks(taskList);
         tasksAdapter.notifyDataSetChanged();
+    }
+
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "DoItApplication";
+            String description = "Application for remind me";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel( "notifyDoIt",name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

@@ -35,4 +35,15 @@
         android:backgroundTint="@android:color/holo_green_dark"
         android:src="@drawable/ic_baseline_add_24" />
 
+    <Button
+        android:id="@+id/remindMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remind me in 10 seconds"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="14dp"
+        android:background="#FDF4A7"/>
+
 </RelativeLayout>
