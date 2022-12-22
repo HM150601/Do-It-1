@@ -17,7 +17,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyDoIt")
                 .setSmallIcon(R.drawable.ic_round_notifications_active_24)
                 .setContentTitle("Remind task for me")
-                .setContentText("Hi, please you check your task today...")
+                .setContentText("Hi, how are your work today?...")
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);

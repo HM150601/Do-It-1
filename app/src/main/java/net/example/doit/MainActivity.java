@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         Toast.makeText(getApplicationContext(), "onStop Called", Toast.LENGTH_LONG).show();
     }
 
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(getApplicationContext(), "onDestroy Called", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void handleDialogClose(DialogInterface dialog){
